@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard - IslandLink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-bolt"></i> Admin
+        </div>
+        <nav class="nav-links">
+            <a href="#" onclick="showSection('overview')" class="nav-link active" id="nav-overview">
+                <i class="fa-solid fa-chart-pie"></i> Overview
+            </a>
+            <a href="#" onclick="showSection('users')" class="nav-link" id="nav-users">
+                <i class="fa-solid fa-users"></i> Users
+            </a>
+            <a href="#" onclick="showSection('reports')" class="nav-link" id="nav-reports">
+                <i class="fa-solid fa-file-invoice"></i> Reports
+            </a>
+            <a href="#" onclick="showSection('transfers')" class="nav-link" id="nav-transfers">
+                <i class="fa-solid fa-truck-ramp-box"></i> Stock Transfers
+            </a>
+            <div style="margin-top: auto;">
+                <a href="#" onclick="logout()" class="nav-link" style="color: #dc3545;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <header class="top-header">
+            <div class="header-title">
+                <i class="fa-solid fa-umbrella-beach"></i> <span>IslandLink Admin</span>
+            </div>
+            <div>
+                <span style="font-size: 0.9rem;">Management Console</span>
+            </div>
+        </header>
+
+        <div class="content-container">
+            <!-- Overview Section -->
+            <div id="overview-section">
+                <h2 class="mb-4"><i class="fa-solid fa-gauge-high"></i> System Overview</h2>
+
+                <div class="card-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 3rem;">
+                    <div class="role-card" style="align-items: center; text-align: center;">
+                        <i class="fa-solid fa-cart-arrow-down role-icon"
+                            style="font-size: 2rem; color: var(--primary-color);"></i>
+                        <div class="role-title">Total Orders</div>
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-color);" id="total-orders">-
+                        </div>
+                    </div>
+                    <div class="role-card" style="align-items: center; text-align: center;">
+                        <i class="fa-solid fa-dollar-sign role-icon"
+                            style="font-size: 2rem; color: var(--success-color);"></i>
+                        <div class="role-title">Total Revenue</div>
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-color);" id="total-revenue">-
+                        </div>
+                    </div>
+                    <div class="role-card" style="align-items: center; text-align: center;">
+                        <i class="fa-solid fa-users role-icon"
+                            style="font-size: 2rem; color: var(--warning-color);"></i>
+                        <div class="role-title">Active Customers</div>
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-color);"
+                            id="total-customers">-
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card"
+                    style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: var(--shadow);">
+                    <h3 class="mb-3">Recent Sales Activity</h3>
+                    <div id="sales-chart-placeholder"
+                        style="height: 200px; display: flex; align-items: flex-end; gap: 10px; padding-bottom: 20px; border-bottom: 1px solid #eee;">
+                        <!-- Bars injected via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Section -->
+            <div id="users-section" style="display: none;">
+                <h2 class="mb-4"><i class="fa-solid fa-users-gear"></i> User Management</h2>
+                <div class="card"
+                    style="background: white; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow);">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Full Name</th>
+                                <th>Current Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <!-- Injected via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Reports Section -->
+            <div id="reports-section" style="display: none;">
+                <h2 class="mb-4"><i class="fa-solid fa-chart-line"></i> Performance Reports</h2>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                    <div class="card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                        <h4 class="mb-3">Low Stock Alert</h4>
+                        <ul id="low-stock-list" style="list-style: none; padding: 0;"></ul>
+                    </div>
+                    <div class="card" style="background: white; padding: 1.5rem; border-radius: 8px;">
+                        <h4 class="mb-3">Staff KPI (Drivers)</h4>
+                        <ul id="kpi-list" style="list-style: none; padding: 0;"></ul>
+                    </div>
+                </div>
+
+                <div class="role-card" style="align-items: flex-start; text-align: left;">
+                    <p class="mb-4">Generate and export system reports for auditing and compliance.</p>
+                    <div>
+                        <button onclick="exportSales()" style="width: auto;"><i class="fa-solid fa-download"></i> Export
+                            Monthly Sales</button>
+                        <button onclick="exportInventory()"
+                            style="width: auto; background-color: var(--secondary-color); margin-left: 0.5rem;"><i
+                                class="fa-solid fa-download"></i> Export Inventory Log</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transfers Section -->
+            <div id="transfers-section" style="display: none;">
+                <h2 class="mb-4"><i class="fa-solid fa-truck-ramp-box"></i> Stock Transfer Approvals</h2>
+                <div class="card"
+                    style="background: white; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow);">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Product</th>
+                                <th>Qty</th>
+                                <th>From -> To</th>
+                                <th>Requested</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transfers-table-body">
+                            <!-- Injected -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/manager.js"></script>
+</body>
+
+</html>

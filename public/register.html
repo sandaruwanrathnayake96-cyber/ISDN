@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - IslandLink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .register-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 0.5rem;
+            font-family: serif;
+            /* Matches the serif font in screenshot 'Create Account' */
+        }
+
+        .register-subtitle {
+            color: #555;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-bolt"></i> Dashboard
+        </div>
+        <nav class="nav-links">
+            <a href="login.html" class="nav-link">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+            <div
+                style="margin-top: 1rem; margin-bottom: 0.5rem; font-size: 0.8rem; color: #6c757d; padding-left: 1rem;">
+                ENTRANCE</div>
+            <a href="login-customer.html" class="nav-link active">
+                <i class="fa-solid fa-user"></i> Customer Login
+            </a>
+            <a href="login-driver.html" class="nav-link">
+                <i class="fa-solid fa-truck"></i> Driver Login
+            </a>
+            <a href="login-rdc.html" class="nav-link">
+                <i class="fa-solid fa-warehouse"></i> RDC Login
+            </a>
+            <a href="login-manager.html" class="nav-link">
+                <i class="fa-solid fa-chart-line"></i> Manager Login
+            </a>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <header class="top-header">
+            <div class="header-title">
+                <i class="fa-solid fa-umbrella-beach"></i> <span>IslandLink</span>
+            </div>
+        </header>
+
+        <div class="content-container" style="background-color: #f0f2f5;">
+            <div class="login-card-container" style="text-align: left; padding: 3rem;">
+
+                <h1 class="register-title">Create Account</h1>
+                <p class="register-subtitle">Join the IslandLink Network as a Customer</p>
+
+                <form id="register-form">
+                    <div class="form-group">
+                        <input type="text" id="reg-fullname" class="form-control" placeholder="Full Name" required
+                            style="border-radius: 4px; padding: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="reg-email" class="form-control" placeholder="Email Address" required
+                            style="border-radius: 4px; padding: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <select id="reg-role" class="form-control" required
+                            style="border-radius: 4px; padding: 10px; background: white;">
+                            <option value="Customer">Customer</option>
+                            <option value="Driver">Driver</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="reg-password" class="form-control" placeholder="Create Password"
+                            required style="border-radius: 4px; padding: 10px;">
+                    </div>
+
+                    <div id="reg-error-message" class="text-danger mb-3" style="font-size: 0.9rem;"></div>
+
+                    <button type="submit" class="login-btn"
+                        style="width: auto; padding: 10px 30px; background-color: #efefef; color: black; border: 1px solid #ccc;">Sign
+                        Up</button>
+                </form>
+
+                <div class="signup-link" style="text-align: left; font-size: 1rem; margin-top: 2rem;">
+                    Already have an account? <a href="login-customer.html"
+                        style="color: blue; text-decoration: underline;">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

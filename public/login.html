@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IslandLink - Sales Distribution Network</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Landing Page Specific Overrides */
+        body {
+            background-color: #fff;
+            /* White background as per screenshot */
+        }
+
+        .main-wrapper {
+            background-color: #fff;
+        }
+
+        .top-header {
+            background-color: #0047ab;
+            /* Deep Blue header */
+            padding: 0.8rem 2rem;
+            justify-content: flex-start;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .header-sub {
+            font-weight: 400;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-left: 0.5rem;
+            color: white;
+        }
+
+        .landing-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 5rem;
+            /* Visual balance */
+        }
+
+        .landing-title {
+            color: #0047ab;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .landing-subtitle {
+            color: #6c757d;
+            margin-bottom: 3rem;
+            font-size: 1rem;
+        }
+
+        .role-cards-container {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .landing-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            /* Soft shadow */
+            text-align: center;
+            width: 250px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .landing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0047ab;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- No Sidebar for Landing Page -->
+
+    <div class="main-wrapper">
+        <header class="top-header">
+            <div class="header-logo">
+                <i class="fa-solid fa-umbrella-beach" style="color: #ffc107;"></i> IslandLink
+            </div>
+            <div class="header-sub">Sales Distribution Network</div>
+        </header>
+
+        <div class="landing-container">
+            <h1 class="landing-title">System Login</h1>
+            <p class="landing-subtitle">Select a role to simulate the Centralised Management System</p>
+
+            <div class="role-cards-container">
+                <!-- Customer -->
+                <a href="login-customer.html" class="landing-card">
+                    <div class="card-icon"><i class="fa-solid fa-cart-shopping" style="color: #adb5bd;"></i></div>
+                    <div class="card-title">Customer</div>
+                    <div class="card-desc">Browse, Order, & Pay</div>
+                </a>
+
+                <!-- RDC -->
+                <a href="login-rdc.html" class="landing-card">
+                    <div class="card-icon"><i class="fa-solid fa-box" style="color: #c4a484;"></i></div>
+                    <!-- Brown box like screenshot -->
+                    <div class="card-title">RDC Staff</div>
+                    <div class="card-desc">Manage Orders & Inventory</div>
+                </a>
+
+                <!-- Driver -->
+                <a href="login-driver.html" class="landing-card">
+                    <div class="card-icon"><i class="fa-solid fa-truck" style="color: #ffc107;"></i></div>
+                    <div class="card-title">Driver</div>
+                    <div class="card-desc">Routes & Delivery Status</div>
+                </a>
+
+                <!-- Manager -->
+                <a href="login-manager.html" class="landing-card">
+                    <div class="card-icon"><i class="fa-solid fa-chart-column" style="color: #a0aec0;"></i></div>
+                    <!-- Bar chart -->
+                    <div class="card-title">Manager</div>
+                    <div class="card-desc">Reports & Auditing</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

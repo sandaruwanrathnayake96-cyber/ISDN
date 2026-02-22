@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Portal - IslandLink</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-bolt"></i> Logistics
+        </div>
+        <nav class="nav-links">
+            <a href="#" onclick="showSection('route')" class="nav-link active" id="nav-route">
+                <i class="fa-solid fa-route"></i> My Routes
+            </a>
+            <a href="#" onclick="showSection('history')" class="nav-link" id="nav-history">
+                <i class="fa-solid fa-history"></i> History
+            </a>
+            <div style="margin-top: auto;">
+                <a href="#" onclick="logout()" class="nav-link" style="color: #dc3545;">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <header class="top-header">
+            <div class="header-title">
+                <i class="fa-solid fa-umbrella-beach"></i> <span>IslandLink Logistics</span>
+            </div>
+            <div>
+                <i class="fa-solid fa-user-gear"></i> Driver Mode
+            </div>
+        </header>
+
+        <div class="content-container">
+            <!-- Route Section -->
+            <div id="route-section">
+                <h2 class="section-title">Today's Route</h2>
+
+                <div id="route-info"
+                    style="margin-bottom: 1.5rem; background: white; padding: 1rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h4 id="route-id" style="margin: 0;">Route #RT-2026-001</h4>
+                        <p id="route-stats" class="text-secondary" style="margin: 0; font-size: 0.9rem;">Estimated Time:
+                            4h
+                            30m • 12 Stops
+                        </p>
+                    </div>
+                    <button class="login-btn" style="width: auto; padding: 0.5rem 1.5rem;" onclick="startRoute()">Start
+                        Route</button>
+                </div>
+
+                <div id="deliveries-container" class="timeline-container">
+                    <!-- Deliveries injected here -->
+                </div>
+            </div>
+
+            <!-- History Section -->
+            <div id="history-section" style="display: none;">
+                <h2 class="section-title">Delivery History</h2>
+                <div id="history-container"
+                    style="background: white; border-radius: 8px; overflow: hidden; box-shadow: var(--shadow);">
+                    <!-- History injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verification Modal -->
+    <div id="verify-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="close-btn" onclick="closeVerifyModal()">&times;</span>
+            <h3>Delivery Verification</h3>
+            <p style="margin-bottom: 1rem; color: #666;">Ask customer for their 4-digit security code.</p>
+
+            <input type="hidden" id="verify-order-id">
+            <div class="form-group">
+                <input type="text" id="verify-code" class="form-control" placeholder="Enter 4-Digit Code" maxlength="4"
+                    style="text-align: center; letter-spacing: 5px; font-size: 1.5rem;">
+            </div>
+
+            <button onclick="confirmDelivery()" class="login-btn">Confirm Delivery</button>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/driver.js"></script>
+</body>
+
+</html>
