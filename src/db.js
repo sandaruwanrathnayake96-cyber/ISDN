@@ -130,15 +130,32 @@ db.serialize(() => {
     products.forEach(prod => prodStmt.run(prod));
     prodStmt.finalize();
 
-    // Seed Data - Inventory (For product IDs 1-13)
+    // Seed Data - Inventory (For product IDs 1-13 across all centers)
+    const centers = ['Central RDC', 'Colombo North', 'Galle RDC', 'Kandy RDC'];
     const inventory = [];
     for (let i = 1; i <= 13; i++) {
-        inventory.push([i, 'Central RDC', Math.floor(Math.random() * 100) + 10]);
+        centers.forEach(center => {
+            inventory.push([i, center, Math.floor(Math.random() * 100) + 10]);
+        });
     }
 
     const invStmt = db.prepare("INSERT OR IGNORE INTO inventory (product_id, rdc_location, quantity) VALUES (?, ?, ?)");
     inventory.forEach(inv => invStmt.run(inv));
     invStmt.finalize();
+
+    // Run migrations to add missing columns
+    db.run("ALTER TABLE deliveries ADD COLUMN delivery_date TEXT", (err) => {
+        // Ignore error if column already exists
+    });
+    db.run("ALTER TABLE deliveries ADD COLUMN time_slot TEXT", (err) => {
+        // Ignore error if column already exists
+    });
+    db.run("ALTER TABLE orders ADD COLUMN payment_reference TEXT", (err) => {
+        // Ignore error if column already exists
+    });
+    db.run("ALTER TABLE orders ADD COLUMN reconciled_at TEXT", (err) => {
+        // Ignore error if column already exists
+    });
 
     console.log("Database initialized and seeded.");
 });
