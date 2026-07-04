@@ -10,6 +10,11 @@ const db = new sqlite3.Database(dbPath, (err) => {
     }
 });
 
+let resolveInit;
+db.initPromise = new Promise((resolve) => {
+    resolveInit = resolve;
+});
+
 db.serialize(() => {
     // Users Table
     db.run(`CREATE TABLE IF NOT EXISTS users (
@@ -93,6 +98,8 @@ db.serialize(() => {
         FOREIGN KEY(product_id) REFERENCES products(id)
     )`);
 
+    db.run("BEGIN TRANSACTION");
+
     // Seed Data - Users
     // Passwords are plain text for this demo as per requirements implied simplicity, 
     // but in real app should be hashed.
@@ -142,6 +149,7 @@ db.serialize(() => {
     const invStmt = db.prepare("INSERT OR IGNORE INTO inventory (product_id, rdc_location, quantity) VALUES (?, ?, ?)");
     inventory.forEach(inv => invStmt.run(inv));
     invStmt.finalize();
+    db.run("COMMIT");
 
     // Run migrations to add missing columns
     db.run("ALTER TABLE deliveries ADD COLUMN delivery_date TEXT", (err) => {
@@ -155,9 +163,9 @@ db.serialize(() => {
     });
     db.run("ALTER TABLE orders ADD COLUMN reconciled_at TEXT", (err) => {
         // Ignore error if column already exists
+        console.log("Database initialized and seeded.");
+        if (resolveInit) resolveInit();
     });
-
-    console.log("Database initialized and seeded.");
 });
 
 module.exports = db;

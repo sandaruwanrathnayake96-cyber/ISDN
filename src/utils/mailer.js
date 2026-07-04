@@ -80,7 +80,7 @@ Send-MailMessage -To "${to}" -From "${config.from_email || config.smtp_user}" -S
 
                 exec(`powershell -ExecutionPolicy Bypass -File "${psScriptPath}"`, (error, stdout, stderr) => {
                     // Delete temp script
-                    try { fs.unlinkSync(psScriptPath); } catch (e) { }
+                    try { fs.unlinkSync(psScriptPath); } catch (e) { /* ignore error */ }
 
                     if (error) {
                         console.error(`[Mailer] Real email sending failed:`, stderr || error.message);

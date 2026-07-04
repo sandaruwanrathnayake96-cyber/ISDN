@@ -5,12 +5,19 @@
     "main": "src/server.js",
     "scripts": {
         "start": "node src/server.js",
-        "dev": "node src/server.js"
+        "dev": "node src/server.js",
+        "test": "jest --runInBand",
+        "lint": "eslint \"src/**/*.js\""
     },
     "dependencies": {
         "body-parser": "^1.20.2",
         "cors": "^2.8.5",
         "express": "^4.18.2",
         "sqlite3": "^6.0.1"
+    },
+    "devDependencies": {
+        "eslint": "^8.57.0",
+        "jest": "^29.7.0",
+        "supertest": "^6.3.4"
     }
 }

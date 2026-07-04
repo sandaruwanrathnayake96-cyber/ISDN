@@ -3,13 +3,12 @@ const router = express.Router();
 const db = require('../db');
 const { sendOrderConfirmation } = require('../utils/mailer');
 
+// Import Controllers (Separation of Concerns)
+const productController = require('../controllers/productController');
+const transferController = require('../controllers/transferController');
+
 // --- Products ---
-router.get('/products', (req, res) => {
-    db.all('SELECT * FROM products', [], (err, rows) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json(rows);
-    });
-});
+router.get('/products', productController.getAllProducts);
 
 // --- Orders ---
 // Place Order
@@ -297,85 +296,9 @@ router.get('/reports/kpi', (req, res) => {
 });
 
 // --- Transfers (Manager/RDC) ---
-router.get('/transfers', (req, res) => {
-    const query = `
-        SELECT t.*, p.name as product_name 
-        FROM transfers t 
-        JOIN products p ON t.product_id = p.id 
-        ORDER BY t.requested_date DESC
-    `;
-    db.all(query, [], (err, rows) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json(rows);
-    });
-});
-
-router.post('/transfers', (req, res) => {
-    const { product_id, quantity, from_rdc, to_rdc } = req.body;
-    db.run('INSERT INTO transfers (product_id, quantity, from_rdc, to_rdc) VALUES (?, ?, ?, ?)',
-        [product_id, quantity, from_rdc, to_rdc], function (err) {
-            if (err) return res.status(500).json({ error: err.message });
-            res.json({ success: true, message: 'Transfer requested' });
-        });
-});
-
-router.put('/transfers/:id', (req, res) => {
-    const { status } = req.body;
-    const { id } = req.params;
-    const approved_date = status === 'Approved' ? new Date().toISOString() : null;
-
-    if (status !== 'Approved') {
-        db.run('UPDATE transfers SET status = ?, approved_date = ? WHERE id = ?', [status, approved_date, id], function (err) {
-            if (err) return res.status(500).json({ error: err.message });
-            return res.json({ success: true, message: `Transfer ${status}` });
-        });
-        return;
-    }
-
-    db.get('SELECT * FROM transfers WHERE id = ?', [id], (err, transfer) => {
-        if (err) return res.status(500).json({ error: err.message });
-        if (!transfer) return res.status(404).json({ error: 'Transfer not found' });
-        if (transfer.status !== 'Pending') {
-            return res.status(400).json({ error: 'Transfer has already been processed' });
-        }
-
-        const { product_id, quantity, from_rdc, to_rdc } = transfer;
-
-        db.get('SELECT * FROM inventory WHERE product_id = ? AND rdc_location = ?', [product_id, from_rdc], (err, srcInv) => {
-            if (err) return res.status(500).json({ error: err.message });
-            if (!srcInv || srcInv.quantity < quantity) {
-                return res.status(400).json({ error: `Insufficient stock at source RDC (${from_rdc}). Current stock: ${srcInv ? srcInv.quantity : 0}` });
-            }
-
-            db.run('UPDATE inventory SET quantity = quantity - ? WHERE id = ?', [quantity, srcInv.id], function (err) {
-                if (err) return res.status(500).json({ error: err.message });
-
-                db.get('SELECT * FROM inventory WHERE product_id = ? AND rdc_location = ?', [product_id, to_rdc], (err, destInv) => {
-                    if (err) return res.status(500).json({ error: err.message });
-
-                    const finalizeTransfer = () => {
-                        db.run('UPDATE transfers SET status = ?, approved_date = ? WHERE id = ?', [status, approved_date, id], function (err) {
-                            if (err) return res.status(500).json({ error: err.message });
-                            res.json({ success: true, message: 'Transfer approved and stock updated successfully' });
-                        });
-                    };
-
-                    if (destInv) {
-                        db.run('UPDATE inventory SET quantity = quantity + ? WHERE id = ?', [quantity, destInv.id], function (err) {
-                            if (err) return res.status(500).json({ error: err.message });
-                            finalizeTransfer();
-                        });
-                    } else {
-                        db.run('INSERT INTO inventory (product_id, rdc_location, quantity) VALUES (?, ?, ?)', [product_id, to_rdc, quantity], function (err) {
-                            if (err) return res.status(500).json({ error: err.message });
-                            finalizeTransfer();
-                        });
-                    }
-                });
-            });
-        });
-    });
-});
+router.get('/transfers', transferController.getAllTransfers);
+router.post('/transfers', transferController.createTransfer);
+router.put('/transfers/:id', transferController.updateTransferStatus);
 
 // --- User Management (Manager) ---
 router.get('/users', (req, res) => {
