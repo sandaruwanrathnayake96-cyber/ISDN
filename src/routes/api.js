@@ -88,7 +88,8 @@ router.get('/orders', (req, res) => {
     const { customer_id, role } = req.query;
 
     let query = `
-        SELECT o.id, o.status, o.total_amount, o.created_at, o.delivery_code, o.delivery_address, o.contact_number, u.username as customer_name 
+        SELECT o.id, o.status, o.total_amount, o.created_at, o.delivery_code, o.delivery_address, o.contact_number, 
+               o.payment_status, o.payment_method, o.payment_reference, o.reconciled_at, u.username as customer_name 
         FROM orders o 
         JOIN users u ON o.customer_id = u.id
     `;

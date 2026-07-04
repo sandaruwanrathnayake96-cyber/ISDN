@@ -435,7 +435,7 @@ async function loadPayments() {
         const tbody = document.getElementById('payments-table-body');
         if (!tbody) return;
 
-        const unpaid = orders.filter(o => o.payment_status === 'Pending' && (o.status === 'Delivered' || o.status === 'Completed'));
+        const unpaid = orders.filter(o => o.payment_status === 'Pending');
 
         tbody.innerHTML = unpaid.map(order => `
             <tr>
